@@ -14,7 +14,13 @@ pygame.display.set_caption('Disegni e click')
 clock = pygame.time.Clock()
 fps = 60
 colore = (255,0,0)
-colore4 = (180,189,78)
+
+
+
+
+
+
+
 # screen.fill(colore4)
 # colore2 = (0,160,0)
 # colore3 = (255, 255, 255)
@@ -38,7 +44,7 @@ while True:
     if abs(scroll) > larghezzasfondo:
         scroll = 0
 
-    
+    rettangolino1 = pygame.draw.rect(screen, colore, (330,190,20,20))
     
     for event in pygame.event.get():
         if event.type == QUIT:
