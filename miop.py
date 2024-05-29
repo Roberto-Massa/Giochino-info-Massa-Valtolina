@@ -2,12 +2,21 @@ import pygame, sys
 from pygame.locals import *
 import math
 from Bersaglio import Bersaglio
+
 pygame.init()
+
+
+
+
+
+
+
+
 
 screen_width = 1800
 screen_height = 1500
 screen = pygame.display.set_mode((screen_width,screen_height))
-
+bersaglio_speed_y = 5
 pygame.display.set_caption('Disegni e click')
 
 # clock per temporizzare il programma
@@ -34,7 +43,8 @@ larghezzasfondo = sfondo.get_width()
 nimmagini = math.ceil(screen_width/larghezzasfondo) + 1
 scroll = 0
 arcere = pygame.image.load("yaa.jpg").convert()
-bersaglio = Bersaglio((screen_width-250, screen_height/2-150), (200, 300))
+bersaglio = Bersaglio()
+
 while True:
       
     
@@ -43,7 +53,7 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    pygame.display.update()
+    
     
 
     for i in range(0, nimmagini):
@@ -53,5 +63,6 @@ while True:
     if abs(scroll) > larghezzasfondo:
         scroll = 0
     bersaglio.draw()
+    pygame.display.update()
     clock.tick(fps)
 pygame.quit()
