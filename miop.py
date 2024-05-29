@@ -1,12 +1,12 @@
 import pygame, sys
 from pygame.locals import *
 import math
-
+from Bersaglio import Bersaglio
 pygame.init()
 
-WINDOW_SIZE = (1500, 600)
-larghezzaschermo = 1500
-screen = pygame.display.set_mode(WINDOW_SIZE)
+screen_width = 1800
+screen_height = 1500
+screen = pygame.display.set_mode((screen_width,screen_height))
 
 pygame.display.set_caption('Disegni e click')
 
@@ -31,20 +31,13 @@ colore = (255,0,0)
 
 sfondo = pygame.image.load("yaa.jpg").convert()
 larghezzasfondo = sfondo.get_width()
-nimmagini = math.ceil(larghezzaschermo/larghezzasfondo) + 1
+nimmagini = math.ceil(screen_width/larghezzasfondo) + 1
 scroll = 0
-
+arcere = pygame.image.load("yaa.jpg").convert()
+bersaglio = Bersaglio((screen_width-250, screen_height/2-150), (200, 300))
 while True:
-    clock.tick(fps)
-
-    for i in range(0, nimmagini):
-        screen.blit(sfondo, (i * larghezzasfondo + scroll, 0))
-
-    scroll -= 5
-    if abs(scroll) > larghezzasfondo:
-        scroll = 0
-
-    rettangolino1 = pygame.draw.rect(screen, colore, (330,190,20,20))
+      
+    
     
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -52,4 +45,13 @@ while True:
             sys.exit()
     pygame.display.update()
     
+
+    for i in range(0, nimmagini):
+        screen.blit(sfondo, (i * larghezzasfondo + scroll, 0))
+
+    scroll -= 5
+    if abs(scroll) > larghezzasfondo:
+        scroll = 0
+    bersaglio.draw()
+    clock.tick(fps)
 pygame.quit()
