@@ -1,7 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 import math
-from Bersaglio import Bersaglio
+from class_Bersaglio import Bersaglio
 
 pygame.init()
 
@@ -43,7 +43,7 @@ larghezzasfondo = sfondo.get_width()
 nimmagini = math.ceil(screen_width/larghezzasfondo) + 1
 scroll = 0
 arcere = pygame.image.load("yaa.jpg").convert()
-bersaglio = Bersaglio()
+bersaglio = Bersaglio(screen)
 
 while True:
       
