@@ -24,14 +24,16 @@ class Freccia:
         self.rect = pygame.Rect(pos[0], pos[1], dim[0], dim[1])
         self.immagine = pygame.image.load("freccia.png")
         self.immagine = pygame.transform.scale(self.immagine, (self.rect.width, self.rect.height))
-        
-        self.velocita_freccia = 5
+        self.velocita_freccia = 20
+
+    def draw(self):
+        self.screen.blit(self.immagine, self.rect)
 
     def muovi(self):
         self.rect.x += self.velocita_freccia
 
-    def draw(self):
-        self.screen.blit(self.immagine, self.immagine.get_rect())
+    def muoviconbersaglio(self, y):
+        self.screen.blit(self.immagine, (self.rect.x+30, y))
         
 
 
