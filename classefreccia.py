@@ -25,13 +25,13 @@ class Freccia:
         self.immagine = pygame.image.load("freccia.png")
         self.immagine = pygame.transform.scale(self.immagine, (self.rect.width, self.rect.height))
         
-        self.velocità = [5,0]
+        self.velocita_freccia = 5
 
     def muovi(self):
-        self.rect.x += self.velocità[0]
+        self.rect.x += self.velocita_freccia
 
     def draw(self):
-        self.screen.blit(self.immagine, self.rect)
+        self.screen.blit(self.immagine, self.immagine.get_rect())
         
 
 

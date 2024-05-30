@@ -4,13 +4,13 @@ import pygame
 
 class Bersaglio:
     def __init__(self, screen) -> None:
-        self.bersaglio = pygame.Rect(1800-200, 1500/2-75, 150, 150)
-        self.colore = (255, 0, 0)
+        self.bersaglio = pygame.Rect(1500-200, 600/2-75, 44, 100)
+        self.colore = (245, 65, 89)
         self.screen = screen
         self.image = pygame.Surface((150,150))
     def draw(self):
-        pygame.draw.rect(self.image, self.colore, self.bersaglio.get_rect())
-        self.screen.blit(self.image, self.rect)
+        pygame.draw.rect(self.image, self.colore, self.image.get_rect())
+        self.screen.blit(self.image, self.bersaglio)
     def bersaglio_movement(self):
         self.bersaglio.y += bersaglio_speed_y
         if self.bersaglio.y <= 0 or self.bersaglio.y >= 1500:
