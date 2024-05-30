@@ -16,19 +16,22 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 #         self.img = pygame.transform.scale(self.img, (self.rect.width, self.rect.height))
 #         screen.blit(self.img, (x, y))
 
-class freccia:
-    def __init__(self, screen,  dim = [30,30], pos = [0,0]):
+class Freccia:
+    def __init__(self, screen,  dim, pos):
         self.screen = screen
         self.dim = dim
         self.pos = pos
         self.rect = pygame.Rect(pos[0], pos[1], dim[0], dim[1])
         self.immagine = pygame.image.load("freccia.png")
         self.immagine = pygame.transform.scale(self.immagine, (self.rect.width, self.rect.height))
-        self.screen.blit(self.immagine, (self.pos[0], self.pos[1]))
+        
         self.velocità = [5,0]
 
     def muovi(self):
         self.rect.x += self.velocità[0]
+
+    def draw(self):
+        self.screen.blit(self.immagine, self.rect)
         
 
 
