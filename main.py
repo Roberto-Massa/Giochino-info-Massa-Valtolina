@@ -63,9 +63,10 @@ font = pygame.font.Font(None, 50)
 text = font.render("VITTORIA!!!", 1, (0, 0, 255))
         
 sound_effect = pygame.mixer.Sound("right-foot-creep.mp3")
-sound_effect.set_volume(0.2)
-sound_effect
-suondcounter = 0
+sound_effect.set_volume(.1)
+sound_freccia = pygame.mixer.Sound("sound-freccia.mp3")
+sound_freccia.set_volume(1)
+
 bersaglio = Bersaglio(screen)
 freccia = Freccia(screen, (250,40), (400, 120))
 bottone = Bottone(screen, (screen_width/2-200, screen_height/2+50), (400, 200), "RESET")
@@ -82,11 +83,14 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if pausa == False:
                 spawn_freccia = True
+                sound_freccia.play()
             
             pos = pygame.mouse.get_pos()
             if spawn_scritta == True:
                 if bottone.rect.collidepoint(pos):
+                    sound_effect.stop()
                     spawn_scritta = False
+                    
                     
                     pausa = False
                     freccia = Freccia(screen, (250,40), (400, 120))
@@ -106,20 +110,19 @@ while True:
 
     bersaglio.muovi()
     if spawn_freccia == True:
+        
         freccia.draw()
         freccia.muovi()
-
-
-
+        
     if freccia.rect.colliderect(bersaglio.rect):
+        
         sound_effect.play(loops=0)
         
+       
+    
         spawn_freccia = False
         spawn_scritta = True
         
-
-    
-
     if spawn_scritta == True:
         freccia.muoviconbersaglio(bersaglio.rect.y)
         screen.blit(text, (screen_width/2-50, screen_height/2))
@@ -138,8 +141,8 @@ while True:
     
 
         
-    suondcounter += 1
+   
     clock.tick(fps)
     pygame.display.flip()
-    
+     
 pygame.quit()
