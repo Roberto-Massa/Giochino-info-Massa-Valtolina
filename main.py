@@ -62,7 +62,10 @@ pausa = False
 font = pygame.font.Font(None, 50)
 text = font.render("VITTORIA!!!", 1, (0, 0, 255))
         
-
+sound_effect = pygame.mixer.Sound("right-foot-creep.mp3")
+sound_effect.set_volume(0.2)
+sound_effect
+suondcounter = 0
 bersaglio = Bersaglio(screen)
 freccia = Freccia(screen, (250,40), (400, 120))
 bottone = Bottone(screen, (screen_width/2-200, screen_height/2+50), (400, 200), "RESET")
@@ -84,6 +87,7 @@ while True:
             if spawn_scritta == True:
                 if bottone.rect.collidepoint(pos):
                     spawn_scritta = False
+                    
                     pausa = False
                     freccia = Freccia(screen, (250,40), (400, 120))
                     
@@ -108,8 +112,11 @@ while True:
 
 
     if freccia.rect.colliderect(bersaglio.rect):
+        sound_effect.play(loops=0)
+        
         spawn_freccia = False
         spawn_scritta = True
+        
 
     
 
@@ -131,7 +138,7 @@ while True:
     
 
         
-    
+    suondcounter += 1
     clock.tick(fps)
     pygame.display.flip()
     
