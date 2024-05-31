@@ -4,23 +4,34 @@ import math
 
 from classefreccia import Freccia
 from bottone import Bottone
-from Bersaglio import Bersaglio
+from bersaglio import Bersaglio
+from punteggio import Punteggio
 
 
 
 pygame.init()
 
 
-#arciere
+#arciere in tensione
 
-arciere_x, arciere_y, dim_arciere_x, dim_arciere_y = 200, 0, 300, 450
-rettangolo_arciere = pygame.Rect(arciere_x, arciere_y,dim_arciere_x, dim_arciere_y)
-immagine_arciere= pygame.image.load("arciere.png")
-immagine_arciere= pygame.transform.scale(immagine_arciere, (rettangolo_arciere.width, rettangolo_arciere.height))
 
+arciere_x1, arciere_y1, dim_arciere_x1, dim_arciere_y1 = 200, 40, 400, 450
+rettangolo_arciere1 = pygame.Rect(arciere_x1, arciere_y1,dim_arciere_x1, dim_arciere_y1)
+immagine_arciere1= pygame.image.load("egit1.png")
+immagine_arciere1= pygame.transform.scale(immagine_arciere1, (rettangolo_arciere1.width, rettangolo_arciere1.height))
+
+
+#arciere liberp
+
+
+arciere_x2, arciere_y2, dim_arciere_x2, dim_arciere_y2 = 200, 60, 450, 510
+rettangolo_arciere2 = pygame.Rect(arciere_x2, arciere_y2,dim_arciere_x2, dim_arciere_y2)
+immagine_arciere2= pygame.image.load("egit2.png")
+immagine_arciere2= pygame.transform.scale(immagine_arciere2, (rettangolo_arciere2.width, rettangolo_arciere2.height))
 
 
 #aereo 
+
 
 aereo_x, aereo_y, dim_aereo_x, dim_aereo_y = 0, 250, 600, 400
 rettangolo_aereo= pygame.Rect(aereo_x, aereo_y, dim_aereo_x, dim_aereo_y)
@@ -34,7 +45,6 @@ screen_width = 1500
 WINDOW_SIZE = (1500, 600)
 larghezzaschermo = WINDOW_SIZE[0]
 screen = pygame.display.set_mode(WINDOW_SIZE)
-
 pygame.display.set_caption('Gioco arciere')
 
 # clock per temporizzare il programma
@@ -51,25 +61,22 @@ arciere = pygame.image.load("arciere.png").convert()
 
  
 
-     
-
-
-
-
 spawn_scritta = False
 spawn_freccia = False
 pausa = False
-font = pygame.font.Font(None, 60)
+font = pygame.font.SysFont("Showcard Gothic", 60)
 text = font.render("VITTORIA!!!", 1, (0, 0, 255))
         
-sound_effect = pygame.mixer.Sound("bs.mp3")
-sound_effect.set_volume(0.01)
+sound_effect = pygame.mixer.Sound("indian-christmas.mp3")
+sound_effect.set_volume(10)
 sound_freccia = pygame.mixer.Sound("bow_shoot.mp3")
 sound_freccia.set_volume(1)
 
 bersaglio = Bersaglio(screen)
-freccia = Freccia(screen, (250,40), (400, 120))
+freccia = Freccia(screen, (250,40), (400, 175))
 bottone = Bottone(screen, (screen_width/2-200, screen_height/2+50), (400, 200), "RESET")
+punteggio = Punteggio(screen, (20,20), (150,100))
+npunteggio = 0
 
 
 while True:
@@ -80,6 +87,8 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+            
+
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if spawn_freccia == False and spawn_scritta == False:
                 sound_freccia.play()
@@ -93,11 +102,11 @@ while True:
                     sound_effect.stop()
                     spawn_scritta = False
                     pausa = False
-                    freccia = Freccia(screen, (250,40), (400, 120))
+                    freccia = Freccia(screen, (250,40), (400, 175))
                     
 
     #algoritmo sfondo   
-                                  
+                                
     for i in range(0, nimmaginisfondo):
         screen.blit(sfondo, (i * larghezzasfondo + scroll, 0))
     scroll -= 5
@@ -106,9 +115,14 @@ while True:
 
     
     screen.blit(immagine_aereo, (aereo_x, aereo_y))
-    screen.blit(immagine_arciere, (arciere_x, arciere_y))
+    if spawn_freccia == False and pausa == False:
+        screen.blit(immagine_arciere1, (arciere_x1, arciere_y1))
+    if spawn_freccia == True or pausa == True:
+        screen.blit(immagine_arciere2, (arciere_x2, arciere_y2))
+
 
     bersaglio.muovi()
+    #punteggio.draw(npunteggio)
 
 
     if spawn_freccia == True:
@@ -119,23 +133,25 @@ while True:
     if freccia.rect.colliderect(bersaglio.rect):
         if spawn_freccia == True:
             sound_effect.play()
+            npunteggio += 1
+            punteggio.image.fill((0, 0, 0))
         spawn_freccia = False
         spawn_scritta = True
 
         
     if spawn_scritta == True:
         freccia.muoviconbersaglio(bersaglio.rect.y)
-        screen.blit(text, (screen_width/2-100, screen_height/2-150))
+        screen.blit(text, (screen_width/2-180, screen_height/2-150))
         bottone.draw()
         pausa = True
     
     
     if freccia.rect.right >= screen.get_width():
         spawn_freccia = False
-        freccia = Freccia(screen, (250,30), (400, 120))
+        freccia = Freccia(screen, (250,30), (400, 175))
         
         
-
+    punteggio.draw(npunteggio)
     bersaglio.draw()
     
 
