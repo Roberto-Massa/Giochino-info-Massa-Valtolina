@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 import math
+from random import *
 
 from classefreccia import Freccia
 from bottone import Bottone
@@ -15,7 +16,7 @@ pygame.init()
 #arciere in tensione
 
 
-arciere_x1, arciere_y1, dim_arciere_x1, dim_arciere_y1 = 200, 40, 400, 450
+arciere_x1, arciere_y1, dim_arciere_x1, dim_arciere_y1 = 200, 90, 400, 450
 rettangolo_arciere1 = pygame.Rect(arciere_x1, arciere_y1,dim_arciere_x1, dim_arciere_y1)
 immagine_arciere1= pygame.image.load("egit1.png")
 immagine_arciere1= pygame.transform.scale(immagine_arciere1, (rettangolo_arciere1.width, rettangolo_arciere1.height))
@@ -24,7 +25,7 @@ immagine_arciere1= pygame.transform.scale(immagine_arciere1, (rettangolo_arciere
 #arciere libero
 
 
-arciere_x2, arciere_y2, dim_arciere_x2, dim_arciere_y2 = 200, 60, 450, 510
+arciere_x2, arciere_y2, dim_arciere_x2, dim_arciere_y2 = 200, 110, 450, 510
 rettangolo_arciere2 = pygame.Rect(arciere_x2, arciere_y2,dim_arciere_x2, dim_arciere_y2)
 immagine_arciere2= pygame.image.load("egit2.png")
 immagine_arciere2= pygame.transform.scale(immagine_arciere2, (rettangolo_arciere2.width, rettangolo_arciere2.height))
@@ -33,7 +34,7 @@ immagine_arciere2= pygame.transform.scale(immagine_arciere2, (rettangolo_arciere
 #aereo 
 
 
-aereo_x, aereo_y, dim_aereo_x, dim_aereo_y = 0, 250, 600, 400
+aereo_x, aereo_y, dim_aereo_x, dim_aereo_y = 0, 300, 600, 400
 rettangolo_aereo= pygame.Rect(aereo_x, aereo_y, dim_aereo_x, dim_aereo_y)
 immagine_aereo = pygame.image.load("aereo.png")
 immagine_aereo = pygame.transform.scale(immagine_aereo, (rettangolo_aereo.width, rettangolo_aereo.height))
@@ -72,8 +73,8 @@ sound_effect.set_volume(10)
 sound_freccia = pygame.mixer.Sound("bow_shoot.mp3")
 sound_freccia.set_volume(1)
 
-bersaglio = Bersaglio(screen)
-freccia = Freccia(screen, (250,40), (330, 170))
+bersaglio = Bersaglio(screen, 10)
+freccia = Freccia(screen, (250,40), (330, 220))
 bottone = Bottone(screen, (screen_width/2-200, screen_height/2+50), (400, 200), "RESET")
 punteggio = Punteggio(screen, (20,20), (150,100))
 npunteggio = 0
@@ -102,7 +103,9 @@ while True:
                     sound_effect.stop()
                     spawn_scritta = False
                     pausa = False
-                    freccia = Freccia(screen, (250,40), (330, 170))
+                    freccia = Freccia(screen, (250,40), (330, 220))
+                    velocitàbersagliocasuale = randint(2, 18)
+                    bersaglio = Bersaglio(screen, velocitàbersagliocasuale)
                     
 
     #algoritmo sfondo   
@@ -124,7 +127,7 @@ while True:
     bersaglio.muovi()
     #punteggio.draw(npunteggio)
     if spawn_freccia == False and pausa == False:
-        screen.blit(freccia.immagine, (330, 170))
+        screen.blit(freccia.immagine, (330, 220))
 
 
     if spawn_freccia == True:
@@ -151,7 +154,7 @@ while True:
     
     if freccia.rect.left>= screen.get_width():
         spawn_freccia = False
-        freccia = Freccia(screen, (250,30), (330, 170))
+        freccia = Freccia(screen, (250,30), (330, 220))
         
         
     punteggio.draw(npunteggio)
