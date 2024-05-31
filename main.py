@@ -21,7 +21,7 @@ immagine_arciere1= pygame.image.load("egit1.png")
 immagine_arciere1= pygame.transform.scale(immagine_arciere1, (rettangolo_arciere1.width, rettangolo_arciere1.height))
 
 
-#arciere liberp
+#arciere libero
 
 
 arciere_x2, arciere_y2, dim_arciere_x2, dim_arciere_y2 = 200, 60, 450, 510
@@ -56,7 +56,7 @@ sfondo = pygame.transform.scale(sfondo, (1500, 600))
 larghezzasfondo = sfondo.get_width()
 nimmaginisfondo = math.ceil(larghezzaschermo/larghezzasfondo) + 1
 scroll = 0
-arciere = pygame.image.load("arciere.png").convert()
+
 
 
  
@@ -73,7 +73,7 @@ sound_freccia = pygame.mixer.Sound("bow_shoot.mp3")
 sound_freccia.set_volume(1)
 
 bersaglio = Bersaglio(screen)
-freccia = Freccia(screen, (250,40), (400, 175))
+freccia = Freccia(screen, (250,40), (330, 170))
 bottone = Bottone(screen, (screen_width/2-200, screen_height/2+50), (400, 200), "RESET")
 punteggio = Punteggio(screen, (20,20), (150,100))
 npunteggio = 0
@@ -102,7 +102,7 @@ while True:
                     sound_effect.stop()
                     spawn_scritta = False
                     pausa = False
-                    freccia = Freccia(screen, (250,40), (400, 175))
+                    freccia = Freccia(screen, (250,40), (330, 170))
                     
 
     #algoritmo sfondo   
@@ -123,20 +123,23 @@ while True:
 
     bersaglio.muovi()
     #punteggio.draw(npunteggio)
+    if spawn_freccia == False and pausa == False:
+        screen.blit(freccia.immagine, (330, 170))
 
 
     if spawn_freccia == True:
         freccia.draw()
         freccia.muovi()
 
-        
+    
     if freccia.rect.colliderect(bersaglio.rect):
-        if spawn_freccia == True:
-            sound_effect.play()
-            npunteggio += 1
-            punteggio.image.fill((0, 0, 0))
-        spawn_freccia = False
-        spawn_scritta = True
+        if freccia.rect.right < bersaglio.rect.x + bersaglio.rect.width/2:
+            if spawn_freccia == True:
+                sound_effect.play()
+                npunteggio += 1
+                punteggio.image.fill((0, 0, 0))
+            spawn_freccia = False
+            spawn_scritta = True
 
         
     if spawn_scritta == True:
@@ -146,9 +149,9 @@ while True:
         pausa = True
     
     
-    if freccia.rect.right >= screen.get_width():
+    if freccia.rect.left>= screen.get_width():
         spawn_freccia = False
-        freccia = Freccia(screen, (250,30), (400, 175))
+        freccia = Freccia(screen, (250,30), (330, 170))
         
         
     punteggio.draw(npunteggio)
